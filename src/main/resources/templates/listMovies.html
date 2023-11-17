@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Movie Ticket Order page - Welcome and choose a Movie</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <style>
+
+        body {
+            width: 1000px;
+            margin: auto;
+            background-color: #5b5c5e;
+            color: #ecf0f1;
+        }
+
+        main {
+            padding: 30px;
+            background-color: #242428;
+        }
+
+
+        input[type="submit"],
+        input[type="number"],
+        input[type="text"]{
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            background-color: #1c1c1e;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<main>
+    <form th:method="post" th:action="@{/filter}">
+        <h2>Choose filters:</h2><br>
+        <label>Name:</label>
+        <input type="text" name="textFilter">
+        <label>Rating:</label>
+        <input type="number" name="ratingFilter" min="1.0" max="10.0" step="1.0"><br>
+        <input type="submit" value="Submit" >
+    </form>
+    <br>
+    <h2>Movies:</h2>
+    <form th:method="post" th:action="@{/ticket}">
+        <table>
+            <tbody>
+            <tr th:each="movie : ${movies}">
+                <td>
+                    <label>
+                        <input type="radio" name="title" th:value="${movie.title}" />
+                    </label>
+                </td>
+                <td th:text="${movie.title}"></td>
+                <td th:text="${movie.summary}"></td>
+                <td th:text="${movie.rating}"></td>
+                <td th:text="${movie.getProduction().getName()}"></td>
+                <td>
+                    <a th:href="@{'/movies/edit/{id}' (id=${movie.getId()})}" class="btn btn-dark">Edit</a>
+                    <a th:href="@{'/movies/delete/{id}' (id=${movie.getId()})}" class="btn btn-dark">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Choose number of tickets:</h2>
+        <input type="number" name="numTickets" min="1" max="10" value="1" />
+        <input type="submit" class="btn btn-dark" value="Submit"/>
+
+    </form>
+    <br>
+    <div>
+        <a href="/movies/add" class="btn btn-dark add-product-btn">
+            Add movie
+        </a>
+    </div><br>
+
+
+</main>
+</body>
+
+</html>

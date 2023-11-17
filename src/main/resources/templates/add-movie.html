@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Movie</title>
+</head>
+<body>
+
+<form th:method="post" th:action="@{/movies/add}">
+    <input id="movieId" type="hidden" name="movieId"
+           th:value="(${movie} != null ? ${movie.getId()} : '')">
+
+    <input type="text" name="title" th:value="(${movie} != null ? ${movie.getTitle()} : '')"> <br>
+    <input type="text" name="summary" th:value="(${movie} != null ? ${movie.getSummary()} : '')"> <br>
+    <input type="number" name="rating"  th:value="(${movie} != null ? ${movie.getRating()} : '')"> <br>
+    <select name="production">
+        <div th:each="production : ${productions}">
+            <option th:if="${movie} == null"
+                    th:text="${production.getName()}"
+                    th:value="${production.getId()}"></option>
+
+            <option th:if="${movie} != null"
+                    th:text="${production.getName()}"
+                    th:value="${production.getId()}"
+                    th:selected="${movie.getProduction().getId() == production.getId() && movie.getProduction()!=null}"></option>
+        </div>
+    </select>
+    <button type="submit">Add</button>
+</form>
+
+</body>
+</html>
